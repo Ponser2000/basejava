@@ -45,7 +45,10 @@ public class ArrayStorage {
     Resume[] getAll() {
         Resume[] allResume = new Resume[size()];
         if (size() >= 0) {
-            System.arraycopy(storage, 0, allResume, 0, size());
+            for (int i = 0; i < size(); i++) {
+                allResume[i] = new Resume();
+                allResume[i].uuid = storage[i].uuid;
+            }
         }
         return allResume;
     }
