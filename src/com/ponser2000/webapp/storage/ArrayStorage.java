@@ -22,18 +22,18 @@ public class ArrayStorage {
         if (indexResume >= 0) {
                 storage[indexResume] = r;
             } else {
-            System.out.println("Обновить элемент не возможно. Резуме UUID: " + r.getUuid() + " отсутсвует в базе");
+            System.out.println("Обновить элемент не возможно. Резюме UUID: " + r.getUuid() + " отсутствует в базе");
         }
     }
 
     public void save(Resume r) {
         if (sizeStorage >= storage.length) {
-            System.out.println("Хранилище заполнено полностью. Сохранить резуме UUID: " + r.getUuid() +  "не возможно.");
+            System.out.println("Хранилище заполнено полностью. Сохранить резюме UUID: " + r.getUuid() +  "не возможно.");
         } else if (getIndexResume(r.getUuid()) < 0) {
             storage[sizeStorage] = r;
             sizeStorage++;
         } else {
-            System.out.println("Сохранить элемент не возможно. Резуме UUID: " + r.getUuid() + " уже есть в базе");
+            System.out.println("Сохранить элемент не возможно. Резюме UUID: " + r.getUuid() + " уже есть в базе");
         }
     }
 
@@ -42,7 +42,7 @@ public class ArrayStorage {
         if (indexResume >= 0) {
             return storage[indexResume];
         } else {
-            System.out.println("Резуме UUID: " + uuid + " отсутсвует в базе");
+            System.out.println("Резюме UUID: " + uuid + " отсутствует в базе");
         }
         return null;
     }
@@ -54,7 +54,7 @@ public class ArrayStorage {
             storage[sizeStorage - 1] = null;
             sizeStorage--;
         } else {
-            System.out.println("Резуме UUID: " + uuid + " отсутсвует в базе");
+            System.out.println("Резюме UUID: " + uuid + " отсутствует в базе");
         }
     }
 
