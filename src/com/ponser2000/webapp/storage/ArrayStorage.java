@@ -7,7 +7,7 @@ import com.ponser2000.webapp.model.Resume;
 
 import java.util.Arrays;
 
-public class ArrayStorage {
+public class ArrayStorage implements Storage {
 
     private static final int STORAGE_LIMIT = 10000;
     private final Resume[] STORAGE = new Resume[STORAGE_LIMIT];
