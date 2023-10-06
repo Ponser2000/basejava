@@ -7,15 +7,11 @@ import com.ponser2000.webapp.model.Resume;
 
 import java.util.Arrays;
 
-public class ArrayStorage implements Storage {
-
-    private static final int STORAGE_LIMIT = 10000;
-    private final Resume[] STORAGE = new Resume[STORAGE_LIMIT];
-    private int sizeStorage;
+public class ArrayStorage extends AbstractArrayStorage {
 
     public void clear() {
-        Arrays.fill(STORAGE, 0, sizeStorage, null);
-        sizeStorage = 0;
+        Arrays.fill(STORAGE, 0, size, null);
+        size = 0;
     }
 
     public void update(Resume r) {
@@ -30,31 +26,23 @@ public class ArrayStorage implements Storage {
     public void save(Resume r) {
         if (getIndex(r.getUuid()) != -1) {
             System.out.println("Сохранить элемент не возможно. Резюме UUID: " + r.getUuid() + " уже есть в базе");
-        } else if (sizeStorage == STORAGE_LIMIT) {
+        } else if (size == STORAGE_LIMIT) {
             System.out.println("Хранилище заполнено полностью. Сохранить резюме UUID: " + r.getUuid() + "не возможно.");
         } else {
-            STORAGE[sizeStorage] = r;
-            sizeStorage++;
+            STORAGE[size] = r;
+            size++;
         }
     }
 
-    public Resume get(String uuid) {
-        int index = getIndex(uuid);
-        if (index == -1) {
-            System.out.println("Резюме UUID: " + uuid + " отсутствует в базе");
-            return null;
-        }
-        return STORAGE[index];
-    }
 
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index == -1) {
             System.out.println("Резюме UUID: " + uuid + " отсутствует в базе");
         } else {
-            STORAGE[index] = STORAGE[sizeStorage - 1];
-            STORAGE[sizeStorage - 1] = null;
-            sizeStorage--;
+            STORAGE[index] = STORAGE[size - 1];
+            STORAGE[size - 1] = null;
+            size--;
         }
     }
 
@@ -62,15 +50,11 @@ public class ArrayStorage implements Storage {
      * @return array, contains only Resumes in storage (without null)
      */
     public Resume[] getAll() {
-        return Arrays.copyOf(STORAGE, sizeStorage);
+        return Arrays.copyOf(STORAGE, size);
     }
 
-    public int size() {
-        return sizeStorage;
-    }
-
-    private int getIndex(String uuid) {
-        for (int i = 0; i < sizeStorage; i++) {
+    protected int getIndex(String uuid) {
+        for (int i = 0; i < size; i++) {
             if (STORAGE[i].getUuid().equals(uuid)) {
                 return i;
             }
