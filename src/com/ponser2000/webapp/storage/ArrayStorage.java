@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 public class ArrayStorage {
 
-    private final int STORAGE_LIMIT = 10000;
+    private static final int STORAGE_LIMIT = 10000;
     private final Resume[] STORAGE = new Resume[STORAGE_LIMIT];
     private int sizeStorage;
 
@@ -30,7 +30,7 @@ public class ArrayStorage {
     public void save(Resume r) {
         if (getIndex(r.getUuid()) != -1) {
             System.out.println("Сохранить элемент не возможно. Резюме UUID: " + r.getUuid() + " уже есть в базе");
-        } else if (sizeStorage == STORAGE.length) {
+        } else if (sizeStorage == STORAGE_LIMIT) {
             System.out.println("Хранилище заполнено полностью. Сохранить резюме UUID: " + r.getUuid() + "не возможно.");
         } else {
             STORAGE[sizeStorage] = r;
