@@ -1,6 +1,6 @@
-package com.ponser2000.webapp.storage;
+package com.ponser2000.basejava.storage;
 
-import com.ponser2000.webapp.model.Resume;
+import com.ponser2000.basejava.model.Resume;
 
 public interface Storage {
 

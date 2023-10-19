@@ -1,18 +1,18 @@
-package com.ponser2000.webapp;
+package com.ponser2000.basejava;
 
-import com.ponser2000.webapp.model.Resume;
-import com.ponser2000.webapp.storage.ArrayStorage;
-import com.ponser2000.webapp.storage.Storage;
+import com.ponser2000.basejava.model.Resume;
+import com.ponser2000.basejava.storage.SortedArrayStorage;
+import com.ponser2000.basejava.storage.Storage;
 
 /**
- * Test for your com.ponser2000.webapp.storage.ArrayStorage implementation
+ * Test for your com.ponser2000.basejava.storage.ArrayStorage implementation
  */
 public class MainTestArrayStorage {
-    private final static Storage ARRAY_STORAGE = new ArrayStorage();
+    private final static Storage ARRAY_STORAGE = new SortedArrayStorage();
 
     public static void main(String[] args) {
         final Resume r1 = new Resume();
-        r1.setUuid("uuid1");
+        r1.setUuid("uuid4");
         final Resume r2 = new Resume();
         r2.setUuid("uuid2");
         final Resume r3 = new Resume();
@@ -25,6 +25,11 @@ public class MainTestArrayStorage {
         ARRAY_STORAGE.save(r1);
         ARRAY_STORAGE.save(r2);
         ARRAY_STORAGE.save(r3);
+        ARRAY_STORAGE.save(r4);
+        ARRAY_STORAGE.save(r5);
+
+        printAll();
+
         ARRAY_STORAGE.save(r1);
 
         System.out.println("Get r1: " + ARRAY_STORAGE.get(r1.getUuid()));

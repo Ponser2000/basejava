@@ -1,4 +1,4 @@
-package com.ponser2000.webapp.model;
+package com.ponser2000.basejava.model;
 
 /**
  * Initial resume class

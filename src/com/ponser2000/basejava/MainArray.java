@@ -1,15 +1,15 @@
-package com.ponser2000.webapp;
+package com.ponser2000.basejava;
 
-import com.ponser2000.webapp.model.Resume;
-import com.ponser2000.webapp.storage.ArrayStorage;
-import com.ponser2000.webapp.storage.Storage;
+import com.ponser2000.basejava.model.Resume;
+import com.ponser2000.basejava.storage.ArrayStorage;
+import com.ponser2000.basejava.storage.Storage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * Interactive test for com.ponser2000.webapp.storage.ArrayStorage implementation
+ * Interactive test for com.ponser2000.basejava.storage.ArrayStorage implementation
  * (just run, no need to understand)
  */
 public class MainArray {
