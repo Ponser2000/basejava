@@ -42,4 +42,16 @@ public abstract class AbstractArrayStorage implements Storage {
         return Arrays.copyOf(STORAGE, size);
     }
 
+    public int check(Resume r){
+        if (getIndex(r.getUuid()) != -1) {
+            System.out.println("Сохранить элемент не возможно. Резюме UUID: " + r.getUuid() + " уже есть в базе");
+            return -1;
+        } else if (size == STORAGE_LIMIT) {
+            System.out.println("Хранилище заполнено полностью. Сохранить резюме UUID: " + r.getUuid() + "не возможно.");
+            return -1;
+        } else {
+            return 0;
+        }
+    }
+
 }

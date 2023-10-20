@@ -8,11 +8,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
     public void save(Resume r) {
-        if (getIndex(r.getUuid()) != -1) {
-            System.out.println("Сохранить элемент не возможно. Резюме UUID: " + r.getUuid() + " уже есть в базе");
-        } else if (size == STORAGE_LIMIT) {
-            System.out.println("Хранилище заполнено полностью. Сохранить резюме UUID: " + r.getUuid() + "не возможно.");
-        } else {
+        if (check(r) != -1) {
             int index = size;
             for (int i = 0; i < size; i++) {
                 if (STORAGE[i].getUuid().compareToIgnoreCase(r.getUuid()) > 0) {
@@ -20,9 +16,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
                     break;
                 }
             }
-            for (int i = size; i > index; i--) {
-                STORAGE[i] = STORAGE[i - 1];
-            }
+            System.arraycopy(STORAGE,index,STORAGE,index+1,size-index);
             STORAGE[index] = r;
             size++;
         }
@@ -34,9 +28,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         if (index == -1) {
             System.out.println("Резюме UUID: " + uuid + " отсутствует в базе");
         } else {
-            for (int i = index; i < size - 1; i++) {
-                STORAGE[i] = STORAGE[i + 1];
-            }
+            System.arraycopy(STORAGE,index+1,STORAGE,index,size-index-1);
             STORAGE[size - 1] = null;
             size--;
         }

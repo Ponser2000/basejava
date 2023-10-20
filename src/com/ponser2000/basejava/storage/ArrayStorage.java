@@ -5,11 +5,7 @@ import com.ponser2000.basejava.model.Resume;
 public class ArrayStorage extends AbstractArrayStorage {
 
     public void save(Resume r) {
-        if (getIndex(r.getUuid()) != -1) {
-            System.out.println("Сохранить элемент не возможно. Резюме UUID: " + r.getUuid() + " уже есть в базе");
-        } else if (size == STORAGE_LIMIT) {
-            System.out.println("Хранилище заполнено полностью. Сохранить резюме UUID: " + r.getUuid() + "не возможно.");
-        } else {
+        if (check(r) != -1) {
             STORAGE[size] = r;
             size++;
         }
