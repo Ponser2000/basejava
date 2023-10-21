@@ -4,22 +4,14 @@ import com.ponser2000.basejava.model.Resume;
 
 public class ArrayStorage extends AbstractArrayStorage {
 
-    public void save(Resume r) {
-        if (check(r) != -1) {
-            STORAGE[size] = r;
-            size++;
-        }
+    @Override
+    protected void insertElement(Resume r, int index) {
+        STORAGE[size] = r;
     }
 
-    public void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index == -1) {
-            System.out.println("Резюме UUID: " + uuid + " отсутствует в базе");
-        } else {
-            STORAGE[index] = STORAGE[size - 1];
-            STORAGE[size - 1] = null;
-            size--;
-        }
+    @Override
+    protected void fillDeletedElement(int index) {
+        STORAGE[index] = STORAGE[size - 1];
     }
 
     protected int getIndex(String uuid) {
