@@ -9,19 +9,19 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     @Override
     protected void insertElement(Resume r, int index) {
         int insertPos = -index - 1;
-        System.arraycopy(STORAGE, insertPos, STORAGE, insertPos + 1, size - insertPos);
-        STORAGE[insertPos] = r;
+        System.arraycopy(storage, insertPos, storage, insertPos + 1, size - insertPos);
+        storage[insertPos] = r;
     }
 
     @Override
     protected void fillDeletedElement(int index) {
-        System.arraycopy(STORAGE, index + 1, STORAGE, index, size - index - 1);
+        System.arraycopy(storage, index + 1, storage, index, size - index - 1);
     }
 
     @Override
     protected int getIndex(String uuid) {
         Resume searchKey = new Resume();
         searchKey.setUuid(uuid);
-        return Arrays.binarySearch(STORAGE, 0, size, searchKey);
+        return Arrays.binarySearch(storage, 0, size, searchKey);
     }
 }

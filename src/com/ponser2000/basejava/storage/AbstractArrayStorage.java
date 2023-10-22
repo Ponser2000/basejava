@@ -7,15 +7,15 @@ import java.util.Arrays;
 public abstract class AbstractArrayStorage implements Storage {
 
     protected static final int STORAGE_LIMIT = 10000;
-    protected final Resume[] STORAGE = new Resume[STORAGE_LIMIT];
+    protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size;
 
-    public final int size() {
+    public int size() {
         return size;
     }
 
-    public final void clear() {
-        Arrays.fill(STORAGE, 0, size, null);
+    public void clear() {
+        Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
@@ -23,9 +23,9 @@ public abstract class AbstractArrayStorage implements Storage {
         int index = getIndex(r.getUuid());
         if (index == -1) {
             System.out.println("Обновить элемент не возможно. Резюме UUID: " + r.getUuid()
-                + " отсутствует в базе");
+                    + " отсутствует в базе");
         } else {
-            STORAGE[index] = r;
+            storage[index] = r;
         }
     }
 
@@ -33,11 +33,11 @@ public abstract class AbstractArrayStorage implements Storage {
         int index = getIndex(r.getUuid());
         if (index >= 0) {
             System.out.println(
-                "Сохранить элемент не возможно. Резюме UUID: " + r.getUuid() + " уже есть в базе");
+                    "Сохранить элемент не возможно. Резюме UUID: " + r.getUuid() + " уже есть в базе");
         } else if (size == STORAGE_LIMIT) {
             System.out.println(
-                "Хранилище заполнено полностью. Сохранить резюме UUID: " + r.getUuid()
-                    + "не возможно.");
+                    "Хранилище заполнено полностью. Сохранить резюме UUID: " + r.getUuid()
+                            + "не возможно.");
         } else {
             insertElement(r, index);
             size++;
@@ -50,22 +50,22 @@ public abstract class AbstractArrayStorage implements Storage {
             System.out.println("Резюме UUID: " + uuid + " отсутствует в базе");
             return null;
         }
-        return STORAGE[index];
+        return storage[index];
     }
 
-    public final void delete(String uuid) {
+    public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index == -1) {
             System.out.println("Резюме UUID: " + uuid + " отсутствует в базе");
         } else {
             fillDeletedElement(index);
-            STORAGE[size - 1] = null;
+            storage[size - 1] = null;
             size--;
         }
     }
 
-    public final Resume[] getAll() {
-        return Arrays.copyOf(STORAGE, size);
+    public Resume[] getAll() {
+        return Arrays.copyOf(storage, size);
     }
 
     protected abstract int getIndex(String uuid);
