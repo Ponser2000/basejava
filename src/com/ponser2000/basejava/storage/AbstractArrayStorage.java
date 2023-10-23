@@ -1,5 +1,8 @@
 package com.ponser2000.basejava.storage;
 
+import com.ponser2000.basejava.exception.ExistStorageException;
+import com.ponser2000.basejava.exception.NotExistStorageException;
+import com.ponser2000.basejava.exception.StorageException;
 import com.ponser2000.basejava.model.Resume;
 
 import java.util.Arrays;
@@ -22,8 +25,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public final void update(Resume r) {
         int index = getIndex(r.getUuid());
         if (index < 0) {
-            System.out.println("Обновить элемент не возможно. Резюме UUID: " + r.getUuid()
-                    + " отсутствует в базе");
+            throw new NotExistStorageException(r.getUuid());
         } else {
             storage[index] = r;
         }
@@ -32,12 +34,9 @@ public abstract class AbstractArrayStorage implements Storage {
     public final void save(Resume r) {
         int index = getIndex(r.getUuid());
         if (index >= 0) {
-            System.out.println(
-                    "Сохранить элемент не возможно. Резюме UUID: " + r.getUuid() + " уже есть в базе");
+            throw new ExistStorageException(r.getUuid());
         } else if (size == STORAGE_LIMIT) {
-            System.out.println(
-                    "Хранилище заполнено полностью. Сохранить резюме UUID: " + r.getUuid()
-                            + "не возможно.");
+            throw new StorageException("Storage overflow", r.getUuid());
         } else {
             insertElement(r, index);
             size++;
@@ -47,8 +46,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public final Resume get(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
-            System.out.println("Резюме UUID: " + uuid + " отсутствует в базе");
-            return null;
+            throw new NotExistStorageException(uuid);
         }
         return storage[index];
     }
@@ -56,7 +54,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
-            System.out.println("Резюме UUID: " + uuid + " отсутствует в базе");
+            throw new NotExistStorageException(uuid);
         } else {
             fillDeletedElement(index);
             storage[size - 1] = null;
