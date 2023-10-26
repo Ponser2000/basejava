@@ -4,41 +4,43 @@ import com.ponser2000.basejava.exception.ExistStorageException;
 import com.ponser2000.basejava.exception.NotExistStorageException;
 import com.ponser2000.basejava.model.Resume;
 
-public abstract class AbstractStorage implements Storage{
-    protected abstract int amountElements();
+public abstract class AbstractStorage implements Storage {
+    protected abstract int doSize();
 
-    protected abstract Resume getElement(String uuid);
+    protected abstract Resume doGet(Object searchKey);
 
-    protected abstract Resume[] allElements();
+    protected abstract Resume[] doGetAll();
 
-    protected abstract int getIndex(String uuid);
+    protected abstract Object getSearchKey(String uuid);
 
-    protected abstract void updateElement(int index, Resume r);
-    protected abstract void saveElement(int index, Resume r);
+    protected abstract void doUpdate(Object searchKey, Resume r);
 
-    protected abstract void deleteElement(int index);
+    protected abstract void doSave(Object searchKey, Resume r);
+
+    protected abstract void doDelete(Object searchKey);
 
     protected abstract void doClear();
 
     @Override
     public int size() {
-        return amountElements();
+        return doSize();
     }
 
     @Override
     public Resume get(String uuid) {
-        return getElement(uuid);
+        Object searchKey = getNotExistElement(uuid);
+        return doGet(searchKey);
     }
 
     @Override
     public Resume[] getAll() {
-        return allElements();
+        return doGetAll();
     }
 
     @Override
     public void update(Resume r) {
-        int index = checkNotExistElement(r.getUuid());
-        updateElement(index, r);
+        Object searchKey = getNotExistElement(r.getUuid());
+        doUpdate(searchKey, r);
     }
 
     @Override
@@ -48,31 +50,31 @@ public abstract class AbstractStorage implements Storage{
 
     @Override
     public void delete(String uuid) {
-        int index = checkNotExistElement(uuid);
-        deleteElement(index);
+        Object searchKey = getNotExistElement(uuid);
+        doDelete(searchKey);
     }
 
     @Override
     public void save(Resume r) {
-        int index = checkExistElement(r.getUuid());
-        saveElement(index, r);
+        Object searchKey = getExistElement(r.getUuid());
+        doSave(searchKey, r);
     }
 
-    protected int checkExistElement(String uuid){
-        int index = getIndex(uuid);
-        if (index >= 0) {
+    protected Object getExistElement(String uuid) {
+        Object searchKey = getSearchKey(uuid);
+        if ((Integer) searchKey >= 0) {
             throw new ExistStorageException(uuid);
         } else {
-            return index;
+            return searchKey;
         }
     }
 
-    protected int checkNotExistElement(String uuid){
-        int index = getIndex(uuid);
-        if (index < 0) {
+    protected Object getNotExistElement(String uuid) {
+        Object searchKey = getSearchKey(uuid);
+        if ((Integer) searchKey < 0) {
             throw new NotExistStorageException(uuid);
         } else {
-            return index;
+            return searchKey;
         }
     }
 

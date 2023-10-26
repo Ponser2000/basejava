@@ -9,8 +9,9 @@ import com.ponser2000.basejava.storage.Storage;
  */
 public class MainTestArrayStorage {
 
- //   private final static Storage ARRAY_STORAGE = new SortedArrayStorage();
+    //   private final static Storage ARRAY_STORAGE = new SortedArrayStorage();
     private final static Storage ARRAY_STORAGE = new ListStorage();
+
     public static void main(String[] args) {
         final Resume r1 = new Resume("uuid4");
         final Resume r2 = new Resume("uuid2");
