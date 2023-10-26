@@ -21,6 +21,8 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract void doClear();
 
+    protected abstract boolean isExist(Object searchKey);
+
     @Override
     public int size() {
         return doSize();
@@ -28,7 +30,7 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public Resume get(String uuid) {
-        Object searchKey = getNotExistElement(uuid);
+        Object searchKey = getExistElement(uuid);
         return doGet(searchKey);
     }
 
@@ -39,7 +41,7 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void update(Resume r) {
-        Object searchKey = getNotExistElement(r.getUuid());
+        Object searchKey = getExistElement(r.getUuid());
         doUpdate(searchKey, r);
     }
 
@@ -50,28 +52,28 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void delete(String uuid) {
-        Object searchKey = getNotExistElement(uuid);
+        Object searchKey = getExistElement(uuid);
         doDelete(searchKey);
     }
 
     @Override
     public void save(Resume r) {
-        Object searchKey = getExistElement(r.getUuid());
+        Object searchKey = getNotExistElement(r.getUuid());
         doSave(searchKey, r);
     }
 
-    protected Object getExistElement(String uuid) {
+    protected Object getNotExistElement(String uuid) {
         Object searchKey = getSearchKey(uuid);
-        if ((Integer) searchKey >= 0) {
+        if (isExist(searchKey)) {
             throw new ExistStorageException(uuid);
         } else {
             return searchKey;
         }
     }
 
-    protected Object getNotExistElement(String uuid) {
+    protected Object getExistElement(String uuid) {
         Object searchKey = getSearchKey(uuid);
-        if ((Integer) searchKey < 0) {
+        if (!isExist(searchKey)) {
             throw new NotExistStorageException(uuid);
         } else {
             return searchKey;
