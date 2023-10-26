@@ -1,7 +1,7 @@
 package com.ponser2000.basejava;
 
 import com.ponser2000.basejava.model.Resume;
-import com.ponser2000.basejava.storage.SortedArrayStorage;
+import com.ponser2000.basejava.storage.ListStorage;
 import com.ponser2000.basejava.storage.Storage;
 
 /**
@@ -9,8 +9,8 @@ import com.ponser2000.basejava.storage.Storage;
  */
 public class MainTestArrayStorage {
 
-    private final static Storage ARRAY_STORAGE = new SortedArrayStorage();
-
+ //   private final static Storage ARRAY_STORAGE = new SortedArrayStorage();
+    private final static Storage ARRAY_STORAGE = new ListStorage();
     public static void main(String[] args) {
         final Resume r1 = new Resume("uuid4");
         final Resume r2 = new Resume("uuid2");
