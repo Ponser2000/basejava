@@ -2,24 +2,31 @@ package com.ponser2000.basejava.storage;
 
 import com.ponser2000.basejava.exception.ExistStorageException;
 import com.ponser2000.basejava.exception.NotExistStorageException;
-import com.ponser2000.basejava.exception.StorageException;
 import com.ponser2000.basejava.model.Resume;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 public abstract class AbstractStorageTest {
+    protected final Storage storage;
     private static final String UUID_1 = "uuid1";
-    private static final Resume RESUME_1 = new Resume(UUID_1);
     private static final String UUID_2 = "uuid2";
-    private static final Resume RESUME_2 = new Resume(UUID_2);
     private static final String UUID_3 = "uuid3";
-    private static final Resume RESUME_3 = new Resume(UUID_3);
     private static final String UUID_4 = "uuid4";
-    private static final Resume RESUME_4 = new Resume(UUID_4);
-    private final Storage storage;
 
-    public AbstractStorageTest(Storage storage) {
+    private static final Resume RESUME_1;
+    private static final Resume RESUME_2;
+    private static final Resume RESUME_3;
+    private static final Resume RESUME_4;
+
+    static {
+        RESUME_1 = new Resume(UUID_1);
+        RESUME_2 = new Resume(UUID_2);
+        RESUME_3 = new Resume(UUID_3);
+        RESUME_4 = new Resume(UUID_4);
+    }
+
+    protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
     }
 
@@ -68,19 +75,6 @@ public abstract class AbstractStorageTest {
         storage.save(RESUME_3);
     }
 
-    @Test(expected = StorageException.class)
-    public void saveOverflow() {
-        storage.clear();
-        try {
-            for (int i = 0; i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
-                storage.save(new Resume());
-            }
-        } catch (StorageException e) {
-            Assert.fail();
-        }
-        storage.save(RESUME_4);
-    }
-
     @Test
     public void get() {
         assertGet(RESUME_1);
@@ -112,11 +106,11 @@ public abstract class AbstractStorageTest {
         storage.get(RESUME_4.getUuid());
     }
 
-    public void assertSize(int size) {
+    private void assertSize(int size) {
         Assert.assertEquals(size, storage.size());
     }
 
-    public void assertGet(Resume resume) {
+    private void assertGet(Resume resume) {
         Resume r = storage.get(resume.getUuid());
         Assert.assertEquals(r, resume);
     }
