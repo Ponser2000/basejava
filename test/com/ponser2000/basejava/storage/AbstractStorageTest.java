@@ -7,24 +7,34 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.is;
+
 public abstract class AbstractStorageTest {
-    protected final Storage storage;
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
     private static final String UUID_4 = "uuid4";
-
+    private static final String FULL_NAME_1 = "fullName1";
+    private static final String FULL_NAME_2 = "fullName2";
+    private static final String FULL_NAME_3 = "fullName3";
+    private static final String FULL_NAME_4 = "fullName4";
     private static final Resume RESUME_1;
     private static final Resume RESUME_2;
     private static final Resume RESUME_3;
     private static final Resume RESUME_4;
 
     static {
-        RESUME_1 = new Resume(UUID_1);
-        RESUME_2 = new Resume(UUID_2);
-        RESUME_3 = new Resume(UUID_3);
-        RESUME_4 = new Resume(UUID_4);
+        RESUME_1 = new Resume(UUID_1, FULL_NAME_1);
+        RESUME_2 = new Resume(UUID_2, FULL_NAME_2);
+        RESUME_3 = new Resume(UUID_3, FULL_NAME_3);
+        RESUME_4 = new Resume(UUID_4, FULL_NAME_4);
     }
+
+    protected final Storage storage;
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -47,13 +57,14 @@ public abstract class AbstractStorageTest {
     public void clear() {
         storage.clear();
         assertSize(0);
-        Resume[] expected = new Resume[0];
-        Assert.assertArrayEquals(expected, storage.getAll());
+        List<Resume> expected = Collections.emptyList();
+        Assert.assertThat(storage.getAllSorted(), is(expected));
+        //Assert.assertArrayEquals(expected, storage.getAllSorted());
     }
 
     @Test
     public void update() {
-        Resume r = new Resume(UUID_2);
+        Resume r = new Resume(UUID_2, FULL_NAME_2);
         storage.update(r);
         Assert.assertSame(storage.get(UUID_2), r);
     }
@@ -96,9 +107,14 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAll() {
-        Resume[] r = storage.getAll();
-        Resume[] expected = new Resume[]{new Resume(UUID_1), new Resume(UUID_2), new Resume(UUID_3)};
-        Assert.assertArrayEquals(expected, r);
+        List<Resume> r = storage.getAllSorted();
+        List<Resume> expected = Arrays.asList(
+                new Resume(UUID_1, FULL_NAME_1),
+                new Resume(UUID_2, FULL_NAME_2),
+                new Resume(UUID_3, FULL_NAME_3)
+        );
+        Assert.assertThat(r, is(expected));
+        //Assert.assertArrayEquals(expected, r);
     }
 
     @Test(expected = NotExistStorageException.class)

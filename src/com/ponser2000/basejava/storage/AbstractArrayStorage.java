@@ -4,12 +4,15 @@ import com.ponser2000.basejava.exception.StorageException;
 import com.ponser2000.basejava.model.Resume;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected static final int STORAGE_LIMIT = 10000;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size;
+
 
     @Override
     protected void doClear() {
@@ -50,8 +53,10 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] doGetAll() {
-        return Arrays.copyOf(storage, size);
+    public List<Resume> doGetAll() {
+        return Arrays.stream(Arrays.copyOf(storage, size))
+                .sorted(FULLNAME_COMPARATOR.thenComparing(UUID_COMPARATOR))
+                .collect(Collectors.toList());
     }
 
     @Override

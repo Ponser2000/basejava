@@ -3,9 +3,11 @@ package com.ponser2000.basejava.storage;
 import com.ponser2000.basejava.model.Resume;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-public class MapStorage extends AbstractStorage {
+public class MapUuidStorage extends AbstractStorage {
     protected final Map<String, Resume> storage = new HashMap<>();
 
     @Override
@@ -19,8 +21,10 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume[] doGetAll() {
-        return storage.values().toArray(new Resume[0]);
+    protected List<Resume> doGetAll() {
+        return storage.values().stream()
+                .sorted(FULLNAME_COMPARATOR.thenComparing(UUID_COMPARATOR))
+                .collect(Collectors.toList());
     }
 
     @Override

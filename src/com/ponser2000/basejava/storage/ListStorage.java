@@ -4,6 +4,7 @@ import com.ponser2000.basejava.model.Resume;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ListStorage extends AbstractStorage {
 
@@ -35,8 +36,10 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume[] doGetAll() {
-        return storage.toArray(new Resume[0]);
+    protected List<Resume> doGetAll() {
+        return storage.stream()
+                .sorted(FULLNAME_COMPARATOR.thenComparing(UUID_COMPARATOR))
+                .collect(Collectors.toList());
     }
 
     @Override
