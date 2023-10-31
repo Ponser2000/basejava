@@ -11,8 +11,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.is;
-
 public abstract class AbstractStorageTest {
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
@@ -44,8 +42,8 @@ public abstract class AbstractStorageTest {
     public void setUp() {
         storage.clear();
         storage.save(RESUME_1);
-        storage.save(RESUME_2);
         storage.save(RESUME_3);
+        storage.save(RESUME_2);
     }
 
     @Test
@@ -58,8 +56,7 @@ public abstract class AbstractStorageTest {
         storage.clear();
         assertSize(0);
         List<Resume> expected = Collections.emptyList();
-        Assert.assertThat(storage.getAllSorted(), is(expected));
-        //Assert.assertArrayEquals(expected, storage.getAllSorted());
+        Assert.assertEquals(expected, storage.getAllSorted());
     }
 
     @Test
@@ -107,14 +104,12 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAll() {
-        List<Resume> r = storage.getAllSorted();
         List<Resume> expected = Arrays.asList(
                 new Resume(UUID_1, FULL_NAME_1),
                 new Resume(UUID_2, FULL_NAME_2),
-                new Resume(UUID_3, FULL_NAME_3)
+                new Resume(UUID_3, FULL_NAME_1)
         );
-        Assert.assertThat(r, is(expected));
-        //Assert.assertArrayEquals(expected, r);
+        Assert.assertEquals(expected, storage.getAllSorted());
     }
 
     @Test(expected = NotExistStorageException.class)
