@@ -6,9 +6,10 @@ import com.ponser2000.basejava.model.Resume;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Logger;
 
 public abstract class AbstractStorage<SK> implements Storage {
-
+    private static final Logger LOG = Logger.getLogger(AbstractStorage.class.getName());
     protected static final Comparator<Resume> STORAGE_COMPARATOR =
             Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid);
 
@@ -37,12 +38,14 @@ public abstract class AbstractStorage<SK> implements Storage {
 
     @Override
     public Resume get(String uuid) {
+        LOG.info("Get " + uuid);
         SK searchKey = getExistElement(uuid);
         return doGet(searchKey);
     }
 
     @Override
     public List<Resume> getAllSorted() {
+        LOG.info("getAllSorted");
         List<Resume> result = doCopyAll();
         result.sort(STORAGE_COMPARATOR);
         return result;
@@ -50,6 +53,7 @@ public abstract class AbstractStorage<SK> implements Storage {
 
     @Override
     public void update(Resume r) {
+        LOG.info("Update " + r);
         SK searchKey = getExistElement(r.getUuid());
         doUpdate(searchKey, r);
     }
@@ -61,12 +65,14 @@ public abstract class AbstractStorage<SK> implements Storage {
 
     @Override
     public void delete(String uuid) {
+        LOG.info("Delete " + uuid);
         SK searchKey = getExistElement(uuid);
         doDelete(searchKey);
     }
 
     @Override
     public void save(Resume r) {
+        LOG.info("Save " + r);
         SK searchKey = getNotExistElement(r.getUuid());
         doSave(searchKey, r);
     }
@@ -74,6 +80,7 @@ public abstract class AbstractStorage<SK> implements Storage {
     protected SK getNotExistElement(String uuid) {
         SK searchKey = getSearchKey(uuid);
         if (isExist(searchKey)) {
+            LOG.warning("Resume " + uuid + " already exist");
             throw new ExistStorageException(uuid);
         } else {
             return searchKey;
@@ -83,6 +90,7 @@ public abstract class AbstractStorage<SK> implements Storage {
     protected SK getExistElement(String uuid) {
         SK searchKey = getSearchKey(uuid);
         if (!isExist(searchKey)) {
+            LOG.warning("Resume " + uuid + " not exist");
             throw new NotExistStorageException(uuid);
         } else {
             return searchKey;
