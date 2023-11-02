@@ -13,16 +13,20 @@ public class Resume {
     private final String fullName;
 
     public Resume() {
-        this(UUID.randomUUID().toString(), "fullName");
+        this(getRandomUuid(), "");
     }
 
-    public Resume(String uuid) {
-        this(uuid, "fullName");
+    public Resume(String fullName) {
+        this(getRandomUuid(), fullName);
     }
 
     public Resume(String uuid, String fullName) {
         this.uuid = uuid;
         this.fullName = fullName;
+    }
+
+    public static String getRandomUuid() {
+        return UUID.randomUUID().toString();
     }
 
     public String getUuid() {

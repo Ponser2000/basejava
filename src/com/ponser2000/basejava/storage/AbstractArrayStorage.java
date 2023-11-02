@@ -5,7 +5,6 @@ import com.ponser2000.basejava.model.Resume;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
 
@@ -54,9 +53,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     @Override
     public List<Resume> doGetAll() {
-        return Arrays.stream(Arrays.copyOf(storage, size))
-                .sorted(FULLNAME_COMPARATOR.thenComparing(UUID_COMPARATOR))
-                .collect(Collectors.toList());
+        return Arrays.asList(Arrays.copyOf(storage, size));
     }
 
     @Override

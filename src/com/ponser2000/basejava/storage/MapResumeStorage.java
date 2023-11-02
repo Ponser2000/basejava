@@ -2,10 +2,10 @@ package com.ponser2000.basejava.storage;
 
 import com.ponser2000.basejava.model.Resume;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class MapResumeStorage extends AbstractStorage {
     protected final Map<String, Resume> storage = new HashMap<>();
@@ -22,9 +22,7 @@ public class MapResumeStorage extends AbstractStorage {
 
     @Override
     protected List<Resume> doGetAll() {
-        return storage.values().stream()
-                .sorted(FULLNAME_COMPARATOR.thenComparing(UUID_COMPARATOR))
-                .collect(Collectors.toList());
+        return new ArrayList<>(storage.values());
     }
 
     @Override
