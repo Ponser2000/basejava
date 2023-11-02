@@ -25,7 +25,7 @@ public class Resume {
         this.fullName = fullName;
     }
 
-    public static String getRandomUuid() {
+    private static String getRandomUuid() {
         return UUID.randomUUID().toString();
     }
 

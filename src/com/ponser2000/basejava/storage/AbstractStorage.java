@@ -6,7 +6,6 @@ import com.ponser2000.basejava.model.Resume;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public abstract class AbstractStorage implements Storage {
 
@@ -44,9 +43,9 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        return doGetAll().stream()
-                .sorted(STORAGE_COMPARATOR)
-                .collect(Collectors.toList());
+        List<Resume> result= doGetAll();
+        result.sort(STORAGE_COMPARATOR);
+        return result;
     }
 
     @Override
