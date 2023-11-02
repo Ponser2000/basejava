@@ -1,5 +1,6 @@
 package com.ponser2000.basejava.model;
 
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -12,15 +13,13 @@ public class Resume {
 
     private final String fullName;
 
-    public Resume() {
-        this(getRandomUuid(), "");
-    }
-
     public Resume(String fullName) {
         this(getRandomUuid(), fullName);
     }
 
     public Resume(String uuid, String fullName) {
+        Objects.requireNonNull(uuid,"uuid must not be null");
+        Objects.requireNonNull(fullName,"fullName must not be null");
         this.uuid = uuid;
         this.fullName = fullName;
     }
